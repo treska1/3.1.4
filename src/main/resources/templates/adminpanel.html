@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin panel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
+          integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+</head>
+<body>
+
+                    <!--Шапка страницы (НА ДОРАБОТКУ)-->
+
+<div class="pos-f-t">
+    <nav class="navbar navbar-expand-xl navbar-dark text-white bg-dark">
+        <div class="container-fluid">
+            <div class="collapse navbar-collapse show" id="navbarDark">
+                <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+                    <span class="align-middle font-weight-bold mr-1" sec:authentication="name"></span></b>
+                    <span class="align-middle mr-1">with roles:</span>
+                    <span class="align-middle" sec:authentication="principal.authorities"></span>
+                </ul>
+            </div>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="btn btn-dark text-secondary">Logout</button>
+            </form>
+        </div>
+    </nav>
+</div>
+
+                                    <!--Боковая панель-->
+
+<div class="container pl-0 pr-0">
+    <div class="row">
+        <div class="col-lg-3 pl-0">
+            <div class="left">
+                <div class="list-group">
+                    <a href="/admin" class="list-group-item list-group-item-action active">Admin</a>
+                    <a href="/user" class="list-group-item list-group-item-action">User</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="ui-corner-left">
+                <br>
+                <h1>Admin panel</h1>
+                <br>
+                <div>
+
+<!--                    Страница юзера-->
+
+<!--                    <div>-->
+<!--                        <table class="table table-striped">-->
+<!--                            <thead>-->
+<!--                            <tr>-->
+<!--                                <th>ID</th>-->
+<!--                                <th>First Name</th>-->
+<!--                                <th>Last Name</th>-->
+<!--                                <th>Age</th>-->
+<!--                                <th>Email</th>-->
+<!--                                <th>Role</th>-->
+<!--                            </tr>-->
+<!--                            </thead>-->
+<!--                            <tbody>-->
+<!--                            <tr>-->
+<!--                                <td th:number="${user.getId()}"></td>-->
+<!--                                <td th:text="${user.getName()}"></td>-->
+<!--                                <td th:text="${user.getSurname()}"></td>-->
+<!--                                <td th:number="${user.getAge()}"></td>-->
+<!--                                <td th:email="${user.getEmail()}"></td>-->
+<!--                                <td>-->
+<!--                                    <div th:each="role : ${user.roles}" th:text="${role.getName()}"></div>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                            </tbody>-->
+<!--                        </table>-->
+<!--                    </div>-->
+
+<!--                    Выбор вкладок Таблица/+ юзер-->
+
+                    <ul class="nav nav-tabs">
+
+                        <!-- Первая вкладка (активная) -->
+
+                        <li class="nav-item">
+                            <a class="nav-link active" data-toggle="tab" href="#userstable">Users table</a>
+                        </li>
+
+                        <!-- Вторая вкладка -->
+
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="#createuser">New User</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content p-2">
+
+                        <!--Ссылка на контент в userstable-->
+
+<!--                        Страница админа-->
+
+                        <div class="tab-pane fade show active" id="userstable">
+                            <h3>All users</h3>
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>First Name</th>
+                                    <th>Last Name</th>
+                                    <th>Age</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Edit</th>
+                                    <th>Delete</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="user : ${allUsers}">
+                                    <td th:text="${user.id}"></td>
+                                    <td th:text="${user.name}"></td>
+                                    <td th:text="${user.surname}"></td>
+                                    <td th:text="${user.age}"></td>
+                                    <td th:text="${user.email}"></td>
+                                    <td>
+                                        <div th:each="role : ${user.roles}" th:text="${role.name}"></div>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-info">Edit</button>
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-danger">Delete</button>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!--Ссылка на контент в createuser-->
+
+                        <div class="tab-pane" id="createuser">
+                            <div>
+                                <div class="col-md bg-white border">
+                                    <form align="center" class="offset-md-4 col-md-3 mt-4 mb-4" th:align="center"
+                                          th:action="@{admin}" th:object="${user}" method="POST">
+
+                                        <label for="name"><b>First Name</b></label>
+                                        <input th:type="text" th:name="name" class="form-control" id="name"
+                                               required/>
+
+                                        <label for="lastname"><b>Last Name</b></label>
+                                        <input th:type="text" th:name="surname" class="form-control" id="lastname"
+                                               required/>
+
+                                        <label for="age"><b>Age</b></label>
+                                        <input th:type="text" th:name="age" class="form-control" id="age"/>
+
+                                        <label for="email"><b>Email</b></label>
+                                        <input th:type="email" th:name="email" class="form-control" id="email"
+                                               required/>
+
+                                        <label for="password"><b>Password</b></label>
+                                        <input th:type="password" th:name="password" class="form-control"
+                                               id="password"
+                                               required/>
+
+                                        <label for="roles"><b>Role</b></label>
+                                        <select multiple class="form-control form-control-sm" id="roles"
+                                                name="roleSelect"
+                                                size="2" required>
+                                            <option selected="selected" value="1">ADMIN</option>
+                                            <option value="2">USER</option>
+                                        </select>
+
+                                        <br>
+                                        <button th:type="submit" class="btn btn-success" value="Add new user">
+                                            Add new user
+                                        </button>
+                                    </form>
+                                </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
+        crossorigin="anonymous"></script>
+</body>
+</html>

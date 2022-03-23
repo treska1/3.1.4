@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<body>
+<div th:fragment="copy">
+    <div th:insert="~{hide :: copy}"></div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Login panel</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Переключатель навигации">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-text">${email}</div>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/user">User page</a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/allusers">User table</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/user-create">New user</a>
+                </li>
+            </ul>
+    </nav>
+</div>
+</body>
+</html>
