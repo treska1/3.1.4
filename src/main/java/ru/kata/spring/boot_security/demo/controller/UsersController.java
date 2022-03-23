@@ -24,7 +24,7 @@ public class UsersController {
     public String userPage (@AuthenticationPrincipal User user  , Model model){
         model.addAttribute("userInfo", user);
         model.addAttribute("roles",user.getRoles());
-        return "adminpanel";
+        return "user";
     }
 
 
