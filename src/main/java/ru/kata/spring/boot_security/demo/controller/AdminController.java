@@ -70,7 +70,7 @@ public class AdminController {
         return "adminpanel";
     }
 
-    @PostMapping("/{id}")
+    @PostMapping("/update/{id}")
     public String userUpdate(@ModelAttribute("userUpdate") User user,@RequestParam("roleSelect") long []rolesId) {
         Set<Role> roleSet = new HashSet<>();
         for (long role: rolesId) {
