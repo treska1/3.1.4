@@ -57,6 +57,8 @@ public class AdminController {
         return "redirect:/admin";
     }
 
+
+
     @DeleteMapping("/{id}")
     public String removeUser(@PathVariable("id") long id) {
         userService.removeUser(id);
@@ -64,14 +66,13 @@ public class AdminController {
     }
 
 
-    @GetMapping("/update/{id}")
+    @GetMapping("/{id}")
     public String updateUserForm(@PathVariable("id") long id, Model model) {
-        model.addAttribute("userUpdate",userService.getUserById(id));
         return "adminpanel";
     }
 
-    @PostMapping("/update/{id}")
-    public String userUpdate(@ModelAttribute("userUpdate") User user,@RequestParam("roleSelect") long []rolesId) {
+    @PostMapping("/{id}")
+    public String userUpdate(@ModelAttribute("user") User user,@RequestParam("roleSelect") long []rolesId) {
         Set<Role> roleSet = new HashSet<>();
         for (long role: rolesId) {
             roleSet.add(roleService.getRoleById(role));
