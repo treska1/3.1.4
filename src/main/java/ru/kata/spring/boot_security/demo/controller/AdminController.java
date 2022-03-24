@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +32,12 @@ public class AdminController {
 //        return "admin";
 //    }
     @GetMapping
-    public String getAllUser(Model model) {
+    public String getAllUser(@AuthenticationPrincipal User user, Model model) {
         List<User> list = userService.getAllUsers();
         model.addAttribute("allUsers", list);
+        model.addAttribute("userInfo", user);
+        model.addAttribute("roles",user.getRoles());
+
         return "adminpanel";
     }
     @GetMapping("/admin")
@@ -60,14 +64,14 @@ public class AdminController {
     }
 
 
-//    @GetMapping("/update/{id}")
-//    public String updateUserForm(@PathVariable("id") long id, Model model) {
-//        model.addAttribute("user",userService.getUserById(id));
-//        return "adminpanel";
-//    }
+    @GetMapping("/update/{id}")
+    public String updateUserForm(@PathVariable("id") long id, Model model) {
+        model.addAttribute("userUpdate",userService.getUserById(id));
+        return "adminpanel";
+    }
 
     @PostMapping("/{id}")
-    public String userUpdate(@ModelAttribute("user") User user,@RequestParam("roleSelect") long []rolesId) {
+    public String userUpdate(@ModelAttribute("userUpdate") User user,@RequestParam("roleSelect") long []rolesId) {
         Set<Role> roleSet = new HashSet<>();
         for (long role: rolesId) {
             roleSet.add(roleService.getRoleById(role));

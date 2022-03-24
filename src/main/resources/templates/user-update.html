@@ -9,7 +9,7 @@
 <div th:insert="~{navbar :: copy}"></div>
 <div>
     <h2>Update user</h2>
-    <form action="#" th:action="@{user-update}" th:object="${user}" method="post">
+    <form action="#" th:action="@{admin}" th:object="${userUpdate}" method="post">
 
         <input type="hidden" th:field="*{id}"/>
 
@@ -33,8 +33,6 @@
         <input type="checkbox" name="roleSelect" value="1"/> ADMIN
         <input type="checkbox" name="roleSelect" value="2"/> USER
 
-        <br>
-        <br>
 
         <button type="submit">Update</button>
         <br>
