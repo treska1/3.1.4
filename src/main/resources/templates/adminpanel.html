@@ -21,7 +21,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-xl-0">
                     <span class="align-middle font-weight-bold mr-1" sec:authentication="name"></span></b>
                     <span class="align-middle mr-1">with roles:</span>
-                    <span class="align-middle" th:each="role : ${userInfo.roles}" th:text="${role.name}"></span>
+                    <span class="align-middle" th:each="role : ${userInfo.roles}" th:utext="${role.name}"></span>
                 </ul>
             </div>
             <form th:action="@{/logout}" method="post">
@@ -38,9 +38,9 @@
         <div class="p-0 col-2">
             <div class="nav flex-column nav-pills pt-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" href="/admin" aria-controls="v-pills-home" aria-selected="true"
-                   sec:authorize="hasRole('ROLE_ADMIN')">Admin</a>
+                   sec:authorize="hasRole('ADMIN')">Admin</a>
                 <a class="nav-link " href="/user" role="tab" aria-controls="v-pills-profile" aria-selected="false"
-                   sec:authorize="(hasAnyRole('ROLE_USER','ROLE_ADMIN'))">User</a>
+                   sec:authorize="(hasAnyRole('USER','ADMIN'))">User</a>
             </div>
         </div>
         <div class="col-lg-10">
@@ -239,9 +239,9 @@
                                                                     <div>
                                                                         <form align="center"
                                                                               class="offset-md-3 col-md-6"
-                                                                              th:action="@{admin/{id}(id=${user.getId()})}"
+                                                                              th:action="@{admin/delete/{id}(id=${user.getId()})}"
                                                                               th:object="${user}"
-                                                                              th:method="DELETE">
+                                                                              th:method="POST">
                                                                             <div class="form-group">
                                                                                 <label for="idD"><b>ID</b></label>
                                                                                 <input th:type="text" th:name="id"

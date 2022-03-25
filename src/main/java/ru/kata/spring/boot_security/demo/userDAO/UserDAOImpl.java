@@ -42,7 +42,12 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void saveUser(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
+        User fromDB = getUserByEmail(user.getUsername());
+        if (fromDB != null) {
+            throw new IllegalArgumentException(String.format("User with email '%s' already exists", user.getUsername()));
+        }
         manager.persist(user);
+
     }
 
     @Override
@@ -59,6 +64,11 @@ public class UserDAOImpl implements UserDAO {
     public User getUserByEmail(String email) {
         TypedQuery<User> query = manager.createQuery("select u from User u where u.email = :email", User.class)
                 .setParameter("email", email);
-        return  query.getSingleResult();
+        List<User> result = query.getResultList();
+        if (result.isEmpty()) {
+            return null;
+        } else {
+            return result.get(0);
+        }
     }
 }
