@@ -1,7 +1,10 @@
 package ru.kata.spring.boot_security.demo.model;
 
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.extern.jackson.Jacksonized;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,6 +14,10 @@ import java.util.Set;
 
 @Entity
 @Data
+@Jacksonized
+@Builder
+
+@NoArgsConstructor
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
@@ -32,6 +39,16 @@ public class User implements UserDetails {
     , joinColumns = @JoinColumn(name = "users_id")
     , inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
+
+    public User(long id, String name, String surname, byte age, String email, String password, Set<Role> roles) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

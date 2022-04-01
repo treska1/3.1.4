@@ -15,25 +15,26 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final SuccessUserHandler successUserHandler;
-    private final PasswordEncoderConfig passwordEncoder;
     private final UserService userService;
 
     @Autowired
-    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService userService, PasswordEncoderConfig passwordEncoder) {
+    public WebSecurityConfig(SuccessUserHandler successUserHandler, UserService userService) {
         this.successUserHandler = successUserHandler;
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
 
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
+                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "/logout").permitAll()
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/user/**").hasRole("USER")
                 .anyRequest().authenticated()
+                .and()
+                .httpBasic()
                 .and()
                 .formLogin().successHandler(successUserHandler)
                 .permitAll()
@@ -45,24 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-    // аутентификация inMemory
-//    @Bean
-//    @Override
-//    public UserDetailsService userDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username("user")
-//                        .password("user")
-//                        .roles("USER")
-//                        .build();
-//        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
-//                        .username("admin")
-//                        .password("admin")
-//                        .roles("ADMIN")
-//                        .build();
-//        return new InMemoryUserDetailsManager(user,admin);
-//    }
+
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider (){
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();

@@ -91,16 +91,42 @@
                                                 <th>Delete</th>
                                             </tr>
                                             </thead>
-                                            <tbody>
-                                            <tr th:each="user : ${allUsers}">
-                                                <td th:text="${user.id}"></td>
-                                                <td th:text="${user.name}"></td>
-                                                <td th:text="${user.surname}"></td>
-                                                <td th:text="${user.age}"></td>
-                                                <td th:text="${user.email}"></td>
+                                            <script>
+                                                fetch("http://localhost:8080/admin/users").then(
+
+                                                    res=>{
+                                                        res.json().then(
+                                                            allusers=>{
+                                                                console.log(allusers)
+                                                                // if (allusers.length>0){
+                                                                //     let user = ""
+                                                                //
+                                                                //     allusers.forEach((u)=>{
+                                                                //         user += "<tr>"
+                                                                //         user += "<td>" + u.name + "</td>"
+                                                                //         user += "<td>" + u.surname + "</td>"
+                                                                //         user += "<td>" + u.name + "</td>"
+                                                                //         user += "<td>" + u.name + "</td>"
+                                                                //         user += "<td>" + u.name + "</td>"
+                                                                //
+                                                                //     })
+                                                                // }
+                                                            }
+                                                        )
+                                                    }
+                                                )
+                                            </script>
+                                            <tbody id="allusers">
+
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
                                                 <td>
-                                                    <div th:each="role : ${user.roles}"
-                                                         th:text="${role.name}"></div>
+<!--                                                    <div th:each="role : ${user.roles}"-->
+<!--                                                         th:text="${role.name}"></div>-->
                                                 </td>
                                                 <td>
                                                     <button type="button" class="btn btn-info" data-toggle="modal"

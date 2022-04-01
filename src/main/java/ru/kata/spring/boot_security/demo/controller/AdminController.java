@@ -10,9 +10,11 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
 
 @Controller
 @RequestMapping("/admin")
@@ -27,10 +29,7 @@ public class AdminController {
 
     }
 
-//    @GetMapping
-//    public String startPage(){
-//        return "admin";
-//    }
+
     @GetMapping
     public String getAllUser(@AuthenticationPrincipal User user, Model model) {
         List<User> list = userService.getAllUsers();
