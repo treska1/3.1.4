@@ -78,7 +78,7 @@
                                     <div class="container-fluid">
                                         <h3>All users</h3>
 
-                                        <table class="table table-striped">
+                                        <table class="table table-striped" id="userTable">
                                             <thead>
                                             <tr>
                                                 <th>ID</th>
@@ -91,32 +91,8 @@
                                                 <th>Delete</th>
                                             </tr>
                                             </thead>
-                                            <script>
-                                                fetch("http://localhost:8080/admin/users").then(
 
-                                                    res=>{
-                                                        res.json().then(
-                                                            allusers=>{
-                                                                console.log(allusers)
-                                                                // if (allusers.length>0){
-                                                                //     let user = ""
-                                                                //
-                                                                //     allusers.forEach((u)=>{
-                                                                //         user += "<tr>"
-                                                                //         user += "<td>" + u.name + "</td>"
-                                                                //         user += "<td>" + u.surname + "</td>"
-                                                                //         user += "<td>" + u.name + "</td>"
-                                                                //         user += "<td>" + u.name + "</td>"
-                                                                //         user += "<td>" + u.name + "</td>"
-                                                                //
-                                                                //     })
-                                                                // }
-                                                            }
-                                                        )
-                                                    }
-                                                )
-                                            </script>
-                                            <tbody id="allusers">
+                                            <tbody>
 
                                             <tr>
                                                 <td></td>
