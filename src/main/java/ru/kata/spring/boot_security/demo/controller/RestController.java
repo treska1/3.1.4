@@ -11,7 +11,7 @@ import java.util.List;
 
 
 @org.springframework.web.bind.annotation.RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/admin")
 public class RestController {
 
     private UserService userService;
@@ -37,7 +37,7 @@ public class RestController {
 
     @PostMapping("/users")
     public List<User> addUser(@RequestBody User user){
-        userService.saveUser(user);
+        userService.saveUser(user, user.getRoles());
         return userService.getAllUsers();
     }
 

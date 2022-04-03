@@ -16,8 +16,6 @@ import java.util.Set;
 @Data
 @Jacksonized
 @Builder
-
-@NoArgsConstructor
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
@@ -39,6 +37,9 @@ public class User implements UserDetails {
     , joinColumns = @JoinColumn(name = "users_id")
     , inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles;
+
+    public User() {
+    }
 
     public User(long id, String name, String surname, byte age, String email, String password, Set<Role> roles) {
         this.id = id;

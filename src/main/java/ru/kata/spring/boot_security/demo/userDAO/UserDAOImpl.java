@@ -43,9 +43,9 @@ public class UserDAOImpl implements UserDAO {
     public void saveUser(User user) {
         user.setPassword(encoder.encode(user.getPassword()));
         User fromDB = getUserByEmail(user.getUsername());
-        Set<Role> defaultRole = new HashSet<>();
-        defaultRole.add(roleDAO.getRoleById(2));
-        user.setRoles(defaultRole);
+//        Set<Role> defaultRole = new HashSet<>();
+//        defaultRole.add(roleDAO.getRoleById(2));
+//        user.setRoles(defaultRole);
         if (fromDB != null) {
             throw new IllegalArgumentException(String.format("User with email '%s' already exists", user.getUsername()));
         }

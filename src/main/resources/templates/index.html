@@ -21,7 +21,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-xl-0">
                     <span class="align-middle font-weight-bold mr-1" sec:authentication="name"></span></b>
                     <span class="align-middle mr-1">with roles:</span>
-                    <span class="align-middle" ></span>
+                    <span class="align-middle"></span>
                 </ul>
             </div>
             <form th:action="@{/logout}" method="post">
@@ -33,9 +33,9 @@
 
 <!--                Боковая панель-->
 
-<div class="container-fluid">
+<div class="container-fluid ">
     <div class="row">
-        <div class="p-0 col-2">
+        <div class="p-0 col-2 ">
             <div class="nav flex-column nav-pills pt-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                 <a class="nav-link active" href="/admin" aria-controls="v-pills-home" aria-selected="true"
                    sec:authorize="hasRole('ROLE_ADMIN')">Admin</a>
@@ -43,58 +43,106 @@
                    sec:authorize="(hasAnyRole('ROLE_USER','ROLE_ADMIN'))">User</a>
             </div>
         </div>
-        <div class="col-lg-10">
+        <div class="col-lg-10 vh-100 bg-light text-dark">
             <div class="ui-corner-left">
                 <br>
-                <div>
 
-                    <!--                    Выбор вкладок Таблица/+ юзер-->
 
-                    <h1>Admin panel</h1>
+                <!--                    Выбор вкладок Таблица/+ юзер-->
 
-                    <ul class="nav nav-tabs">
+                <h1>Admin panel</h1>
 
-                        <!-- Первая вкладка (активная) -->
+                <ul class="nav nav-tabs">
 
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#userstable">Users table</a>
-                        </li>
+                    <!-- Первая вкладка (активная) -->
 
-                        <!-- Вторая вкладка -->
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#userstable">Users table</a>
+                    </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#createuser">New User</a>
-                        </li>
-                    </ul>
-                    <div class="card">
-                        <div class="card-body">
-                            <div class="tab-content p-2">
+                    <!-- Вторая вкладка -->
 
-                                <!--Ссылка на контент в userstable-->
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="tab" href="#createuser">New User</a>
+                    </li>
+                </ul>
+                <div class="card vh-100 bg-light text-dark">
+                    <div class="card-body">
+                        <div class="tab-content p-2">
 
-                                <!--                        Страница админа-->
+                            <!--Ссылка на контент в userstable-->
 
-                                <div class="tab-pane fade show active" id="userstable">
-                                    <div class="container-fluid">
-                                        <h3>All users</h3>
+                            <!--                        Страница админа-->
 
-                                        <table class="table table-striped" id="userTable">
-                                            <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>First Name</th>
-                                                <th>Last Name</th>
-                                                <th>Age</th>
-                                                <th>Email</th>
-                                                <th>Role</th>
-                                                <th>Edit</th>
-                                                <th>Delete</th>
-                                            </tr>
-                                            </thead>
+                            <div class="tab-pane fade show active" id="userstable">
+                                <div class="container-fluid">
+                                    <h3>All users</h3>
+                                    <div>
 
-                                            <tbody id="data">
-                                            </tbody>
-                                        </table>
+                                    <table class="table table-striped" id="userTable">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">First Name</th>
+                                            <th scope="col">Last Name</th>
+                                            <th scope="col">Age</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Role</th>
+                                            <th scope="col">Edit</th>
+                                            <th scope="col">Delete</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="data">
+                                        </tbody>
+                                    </table>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!--Ссылка на контент в createuser-->
+
+                            <div class="tab-pane" id="createuser">
+                                <div>
+                                    <h3>Add new user</h3>
+
+                                    <div class="col-md bg-white border">
+                                        <form align="center" class="offset-md-4 col-md-3 mt-4 mb-4"
+                                              th:align="center" id="userCreate">
+
+                                            <label for="nameC"><b>First Name</b></label>
+                                            <input th:type="text" class="form-control" id="nameC"
+                                                   required/>
+
+                                            <label for="surnameC"><b>Last Name</b></label>
+                                            <input th:type="text" class="form-control"
+                                                   id="surnameC" required/>
+
+                                            <label for="ageC"><b>Age</b></label>
+                                            <input th:type="text" class="form-control" id="ageC"/>
+
+                                            <label for="emailC"><b>Email</b></label>
+                                            <input th:type="email" class="form-control" id="emailC"
+                                                   required/>
+
+                                            <label for="passwordC"><b>Password</b></label>
+                                            <input th:type="password" class="form-control"
+                                                   id="passwordC" required/>
+
+                                            <label for="rolesC"><b>Role</b></label>
+                                            <select multiple class="form-control form-control-sm" id="rolesC"
+                                                    size="2" required>
+                                                <option selected="selected" value="1">ADMIN</option>
+                                                <option value="2">USER</option>
+                                            </select>
+
+                                            <br>
+                                            <button th:type="submit" class="btn btn-success" value="Add new user">
+                                                Add new user
+                                            </button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -105,6 +153,87 @@
         </div>
     </div>
 </div>
+
+<!--                                MODAL EDIT-->
+
+<div class="modal fade" id="modalEdit"
+     tabindex="-1"
+     role="dialog" aria-labelledby="exampleModalLongTitle"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">
+                    Edit user</h5>
+                <button type="button" class="close"
+                        data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form align="center" class="offset-md-3 col-md-6">
+                    <div class="form-group">
+                        <label for="idU"><b>ID</b></label>
+                        <input th:type="text" th:name="id"
+                               class="form-control" id="idU"
+                               readonly/>
+                    </div>
+                    <div class="form-group">
+                        <label for="nameU"><b>First
+                            Name</b></label>
+                        <input th:type="text" th:name="name"
+                               class="form-control " id="nameU"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="surnameU"><b>Last
+                            Name</b></label>
+                        <input th:type="text" th:name="surname"
+                               class="form-control"
+                               id="surnameU"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="ageU"><b>Age</b></label>
+                        <input th:type="text" th:name="age"
+                               class="form-control" id="ageU"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailU"><b>Email</b></label>
+                        <input th:type="email" th:name="email"
+                               class="form-control" id="emailU"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordU"><b>Password</b></label>
+                        <input th:type="password" th:name="password"
+                               class="form-control" id="passwordU" readonly/>
+                        <label for="rolesU"><b>Role</b></label>
+                    </div>
+                    <div class="form-group">
+                        <select multiple
+                                class="form-control form-control-sm"
+                                id="rolesU" name="roleSelect"
+                                size="2"
+                                required>
+                            <option value="1">ADMIN</option>
+                            <option value="2">USER</option>
+                        </select>
+                    </div>
+                    <br>
+                    <div class="modal-footer">
+                        <button type="button"
+                                class="btn btn-secondary"
+                                data-dismiss="modal">Close
+                        </button>
+                        <button type="submit" class="btn btn-primary">Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--                                END MODAL EDIT-->
+
+
 <script type="text/javascript" src="js/app.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
