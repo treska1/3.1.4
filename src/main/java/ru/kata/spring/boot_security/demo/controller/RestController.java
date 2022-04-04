@@ -42,14 +42,14 @@ public class RestController {
     }
 
     @PutMapping("/users")
-    public List<User> getUser(@RequestBody User user) {
+    public List<User> updateUser(@RequestBody User user) {
         userService.updateUser(user);
         return userService.getAllUsers();
     }
 
     @DeleteMapping("users/{id}")
-    public String deleteUser(@PathVariable("id") long id) {
+    public List<User> deleteUser(@PathVariable("id") long id) {
         userService.removeUser(id);
-        return "User with ID =  "+id+" has been delete";
+        return userService.getAllUsers();
     }
 }

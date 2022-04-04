@@ -39,13 +39,13 @@ public class AdminController {
 
         return "index";
     }
-    @GetMapping("/admin")
+    @GetMapping("/users")
     public String createUserForm(Model model, User user) {
         model.addAttribute("user",user);
         return "index";
     }
 
-    @PostMapping
+    @PostMapping("/users")
     public String createUser(User user, @RequestParam("roleSelect")long[] roleId) {
         Set<Role> roleSet = new HashSet<>();
         for (long role: roleId) {
