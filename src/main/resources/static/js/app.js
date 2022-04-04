@@ -178,7 +178,7 @@ deleteUser.addEventListener('submit', e => {
 
 // NAVIGATION BAR
 
-fetch(url)
+fetch('http://localhost:8080/api/user')
     .then(res => res.json())
     .then(data => {
         document.querySelector('#navbarDark').innerHTML = `
