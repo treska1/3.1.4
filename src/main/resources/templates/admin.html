@@ -136,7 +136,7 @@
                                             </select>
 
                                             <br>
-                                            <button th:type="submit" class="btn btn-success" value="Add new user">
+                                            <button th:type="submit"  class="btn btn-success" value="Add new user" >
                                                 Add new user
                                             </button>
                                         </form>
@@ -169,51 +169,44 @@
             </div>
             <div class="modal-body">
                 <form align="center" class="offset-md-3 col-md-6">
-                    <div class="form-group">
+
                         <label for="idU"><b>ID</b></label>
                         <input th:type="text" th:name="id"
                                class="form-control" id="idU"
                                readonly/>
-                    </div>
-                    <div class="form-group">
+
                         <label for="nameU"><b>First
                             Name</b></label>
                         <input th:type="text" th:name="name"
                                class="form-control " id="nameU"/>
-                    </div>
-                    <div class="form-group">
+
                         <label for="surnameU"><b>Last
                             Name</b></label>
                         <input th:type="text" th:name="surname"
                                class="form-control"
                                id="surnameU"/>
-                    </div>
-                    <div class="form-group">
+
                         <label for="ageU"><b>Age</b></label>
                         <input th:type="text" th:name="age"
                                class="form-control" id="ageU"/>
-                    </div>
-                    <div class="form-group">
+
                         <label for="emailU"><b>Email</b></label>
                         <input th:type="email" th:name="email"
                                class="form-control" id="emailU"/>
-                    </div>
-                    <div class="form-group">
+
                         <label for="passwordU"><b>Password</b></label>
                         <input th:type="password" th:name="password"
-                               class="form-control" id="passwordU" readonly/>
+                               class="form-control" id="passwordU" />
+
                         <label for="rolesU"><b>Role</b></label>
-                    </div>
-                    <div class="form-group">
+
                         <select multiple
                                 class="form-control form-control-sm"
-                                id="rolesU" name="roleSelect"
-                                size="2"
-                                required>
+                                id="rolesU" size="2" required>
                             <option value="1">ADMIN</option>
-                            <option value="2">USER</option>
+                            <option selected="selected" value="2">USER</option>
                         </select>
-                    </div>
+
                     <br>
                     <div class="modal-footer">
                         <button type="button"
@@ -248,42 +241,32 @@
             </div>
             <div class="modal-body">
                 <form align="center" class="offset-md-3 col-md-6">
-                    <div class="form-group">
+
                         <label for="idD"><b>ID</b></label>
                         <input th:type="text" th:name="id"
                                class="form-control" id="idD"
                                readonly/>
-                    </div>
-                    <div class="form-group">
+
                         <label for="nameD"><b>First
                             Name</b></label>
                         <input th:type="text" th:name="name"
                                class="form-control " id="nameD" readonly/>
-                    </div>
-                    <div class="form-group">
+
                         <label for="surnameD"><b>Last
                             Name</b></label>
                         <input th:type="text" th:name="surname"
                                class="form-control"
                                id="surnameD" readonly/>
-                    </div>
-                    <div class="form-group">
+
                         <label for="ageD"><b>Age</b></label>
                         <input th:type="text" th:name="age"
                                class="form-control" id="ageD" readonly/>
-                    </div>
-                    <div class="form-group">
+
                         <label for="emailD"><b>Email</b></label>
                         <input th:type="email" th:name="email"
                                class="form-control" id="emailD" readonly/>
-                    </div>
-<!--                    <div class="form-group">-->
-<!--                        <label for="passwordU"><b>Password</b></label>-->
-<!--                        <input th:type="password" th:name="password"-->
-<!--                               class="form-control" id="passwordD" readonly/>-->
-<!--                        <label for="rolesU"><b>Role</b></label>-->
-<!--                    </div>-->
-                    <div class="form-group">
+
+                        <label for="rolesD"><b>Role</b></label>
                         <select multiple
                                 class="form-control form-control-sm"
                                 id="rolesD" name="roleSelect"
@@ -292,7 +275,7 @@
                             <option value="1">ADMIN</option>
                             <option value="2">USER</option>
                         </select>
-                    </div>
+
                     <br>
                     <div class="modal-footer">
                         <button type="button"

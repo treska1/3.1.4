@@ -1,10 +1,20 @@
+// NAVIGATION BAR ADMIN
 
-const url = 'http://localhost:8080/api/admin/users'
-const userList = document.querySelector('#userTable');
+fetch('http://localhost:8080/api/user')
+    .then(res => res.json())
+    .then(data => {
+        document.querySelector('#navbarDark').innerHTML = `
+                    <span class="align-middle font-weight-bold mr-1" >${data.name}</span>
+                    <span class="align-middle mr-1">with roles:</span>
+                    <span> ${(data.roles).map(rn => rn.name === "ROLE_ADMIN" ? "ADMIN" : "USER")}</span>`
+    })
+
+
 
 // GET Method SHOW
 
-
+const url = 'http://localhost:8080/api/admin/users'
+const userList = document.querySelector('#userTable');
 const renderUsers = (users) => {
     let output = '';
     users.forEach(user => {
@@ -16,9 +26,10 @@ const renderUsers = (users) => {
             <td>${user.age}</td>
             <td>${user.email}</td>
             <td>${user.roles.map(r => r.name === "ROLE_ADMIN" ? "ADMIN" : "USER")}</td>
+            <td hidden="true">${user.password}</td>
             <td> 
                 <button type="button" class="btn btn-info"  id="edituser"  data-action="edit"  
-                    data-toggle="modal" data-target="#modalEdit"  data-id="${user.id}">Edit</button> 
+                    data-toggle="modal" data-target="modal"  data-id="${user.id}">Edit</button> 
             </td> 
             <td> 
                 <button type="button" class="btn btn-danger" id="deleteuser" data-action="delete" 
@@ -29,7 +40,6 @@ const renderUsers = (users) => {
     userList.innerHTML = output
 }
 
-// {mode: "cors"}
 fetch(url)
     .then(res => res.json())
     .then(data =>
@@ -38,7 +48,6 @@ fetch(url)
 
 // POST Method CREATE
 
-// Открытый вопрос
 const userCreate = document.querySelector('#userCreate');
 let name = document.getElementById("nameC")
 let surname = document.getElementById("surnameC")
@@ -61,10 +70,10 @@ userCreate.addEventListener('submit', (e) => {
             email: email.value,
             password: password.value,
             roles: [{
-                "id" : roles.value
+                "id": roles.value
             },
                 {
-                    "id" : roles.value
+                    "id": roles.value
                 }
             ]
         })
@@ -78,7 +87,7 @@ userCreate.addEventListener('submit', (e) => {
 
 const on = (element, event, selector, handler) => {
     element.addEventListener(event, e => {
-        if (e.target.closest(selector)){
+        if (e.target.closest(selector)) {
             handler(e)
         }
     })
@@ -93,9 +102,8 @@ on(document, 'click', '#edituser', e => {
     document.getElementById('surnameU').value = userInfo.children[2].innerHTML
     document.getElementById('ageU').value = userInfo.children[3].innerHTML
     document.getElementById('emailU').value = userInfo.children[4].innerHTML
-    document.getElementById('passwordU').value = userInfo.children[5].innerHTML
+    document.getElementById('passwordU').value = userInfo.children[6].innerHTML
     document.getElementById('rolesU').value = userInfo.children[5].innerHTML
-
     $('#modalEdit').modal('show')
 })
 
@@ -113,26 +121,25 @@ editUser.addEventListener('submit', e => {
             surname: document.getElementById('surnameU').value,
             age: document.getElementById('ageU').value,
             email: document.getElementById('emailU').value,
-            // password: document.getElementById('passwordU').value,
+            password: document.getElementById('passwordU').value,
             roles: [{
-                "id" : document.getElementById('rolesU').value
+                "id": document.getElementById('rolesU').value
             }]
         })
+
     })
         .then(res => res.json())
         .then(data => updateUser(data))
-        .catch((e) => console.error(e))
     $("#modalEdit").modal('hide')
+    console.log('AFTER UPDATE: ' + document.getElementById('passwordU').value)
+
 })
 
-// PROBLEM WITH INDEX
 let users = [];
 const updateUser = (user) => {
-    const foundIndex = users.findIndex(i => i.id === user.id);
-    console.log(users.findIndex(i => i.id === user.id))
-    users[foundIndex] = user;
+    const userById = users.findIndex(i => i.id === user.id);
+    users[userById] = user;
     renderUsers(user);
-    console.log(user);
 }
 
 // DELETE Method DELETE
@@ -155,34 +162,20 @@ on(document, 'click', '#deleteuser', e => {
 
 const removeUser = (id) => {
     users = users.filter(user => user.id != id);
-    console.log(users)
     renderUsers(users);
 }
 
 const deleteUser = document.querySelector('#modalDelete')
 deleteUser.addEventListener('submit', e => {
     e.preventDefault();
-    e.stopPropagation()
-    // e.stopPropagation()
     fetch(url + '/' + currentUser, {
         method: 'DELETE'
     })
         .then(res => res.json())
-        .then(data => {
+        .then(user => {
             removeUser(currentUser)
-            console.log(currentUser)
-            deleteUser.removeEventListener('submit', () =>{})
+            deleteUser.removeEventListener('submit', () => {} )
         })
     $("#modalDelete").modal('hide')
 })
 
-// NAVIGATION BAR
-
-fetch('http://localhost:8080/api/user')
-    .then(res => res.json())
-    .then(data => {
-        document.querySelector('#navbarDark').innerHTML = `
-                    <span class="align-middle font-weight-bold mr-1" >${data.name}</span>
-                    <span class="align-middle mr-1">with roles:</span>
-                    <span> ${(data.roles).map(rn => rn.name === "ROLE_ADMIN" ? "ADMIN" : "USER")}</span>`
-    })

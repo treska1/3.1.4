@@ -37,12 +37,12 @@ public class AdminController {
         model.addAttribute("userInfo", user);
         model.addAttribute("roles",user.getRoles());
 
-        return "index";
+        return "admin";
     }
     @GetMapping("/users")
     public String createUserForm(Model model, User user) {
         model.addAttribute("user",user);
-        return "index";
+        return "admin";
     }
 
     @PostMapping("/users")
@@ -67,7 +67,7 @@ public class AdminController {
 
     @GetMapping("/{id}")
     public String updateUserForm(@PathVariable("id") long id, Model model) {
-        return "index";
+        return "admin";
     }
 
     @PostMapping("/{id}")
