@@ -23,6 +23,6 @@ private final UserService userService;
 
     @GetMapping
     public User getUserByEmail(Principal principal){
-    return userService.getUserByUsername(principal.getName());
+    return userService.getUserByEmail(principal.getName());
     }
 }

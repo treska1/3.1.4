@@ -29,13 +29,13 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
 
     }
-    @Transactional
+
     @Override
     public void saveUser(User user, Set<Role> roleSet) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
-    @Transactional
+
     @Override
     public void updateUser(User user) {
         if (!user.getPassword().equals(getUserById(user.getId()).getPassword())) {
@@ -43,38 +43,41 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.save(user);
     }
-    @Transactional
+
     @Override
     public void removeUser(long id) {
         userRepository.deleteById(id);
     }
-    @Transactional
+
     @Override
     public User getUserById(long id) {
-        User user = userRepository.findUserById(id);
-        Set<Role> role =  user.getRoles();
-        user.setRoles(role);
-        return user;
+        return userRepository.findUserById(id);
     }
-    @Transactional
+
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        User user = userRepository.findUserByEmail(username);
-        Set<Role> role =  user.getRoles();
-        user.setRoles(role);
-        return user;
+    public User getUserByEmail(String email) {
+        return userRepository.findUserByEmail(email);
     }
-    @Transactional
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findUserByEmail(username);
-        Set<Role> role =  user.getRoles();
-        user.setRoles(role);
-        return user;
+        return userRepository.findUserByEmail(username);
     }
+
+    @Override
+    public boolean isExistByEmail(String email) {
+        System.out.println(userRepository.existsByEmail(email));
+        return userRepository.existsByEmail(email);
+
+    }
+//        if (userRepository.findUserByEmail(email) != null) {
+//           throw new IllegalArgumentException(String.format("User with email '%s' already exists", email));
+//        } else
+//            return false;
+//    }
 }

@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.service.RoleService;
@@ -26,30 +28,33 @@ public class AdminRestController {
 
 
     @GetMapping("/users")
-    public List<User> getAllUser() {
-        return userService.getAllUsers();
+    public ResponseEntity<List<User>> getAllUser() {
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @GetMapping("users/{id}")
-    public User getUser(@PathVariable("id") long id) {
-        return userService.getUserById(id);
+    public ResponseEntity<User> getUser(@PathVariable("id") long id) {
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @PostMapping("/users")
-    public List<User> addUser(@RequestBody User user){
+    public ResponseEntity<List<User>> addUser(@RequestBody User user){
+        if (userService.isExistByEmail(user.getEmail())){
+            throw new IllegalArgumentException(String.format("User with email: '%s' already exists", user.getEmail()));
+        }
         userService.saveUser(user, user.getRoles());
-        return userService.getAllUsers();
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @PutMapping("/users")
-    public List<User> updateUser(@RequestBody User user) {
+    public ResponseEntity<List<User>> updateUser(@RequestBody User user) {
         userService.updateUser(user);
-        return userService.getAllUsers();
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @DeleteMapping("users/{id}")
-    public List<User> deleteUser(@PathVariable("id") long id) {
+    public ResponseEntity<List<User>> deleteUser(@PathVariable("id") long id) {
         userService.removeUser(id);
-        return userService.getAllUsers();
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 }

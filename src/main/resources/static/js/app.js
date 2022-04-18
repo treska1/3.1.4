@@ -55,7 +55,7 @@ let age = document.getElementById("ageC")
 let email = document.getElementById("emailC")
 let password = document.getElementById("passwordC")
 let roles = document.getElementById("rolesC")
-
+let value = Array.from
 
 userCreate.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -159,7 +159,6 @@ let currentUser = null
 on(document, 'click', '#deleteuser', e => {
     const userInfoDelete = e.target.parentNode.parentNode
     currentUser = userInfoDelete.children[0].innerHTML
-    console.log(userInfoDelete.children[0].innerHTML)
     document.getElementById('idD').value = userInfoDelete.children[0].innerHTML
     document.getElementById('nameD').value = userInfoDelete.children[1].innerHTML
     document.getElementById('surnameD').value = userInfoDelete.children[2].innerHTML
@@ -172,7 +171,8 @@ on(document, 'click', '#deleteuser', e => {
 })
 
 const removeUser = (id) => {
-    users = users.filter(user => user.id !== id)}
+    users = users.filter(user => user.id !== id)
+}
 
 
 function remove(){
@@ -186,7 +186,7 @@ deleteUser.addEventListener('submit', e => {
         .then(user => {
             removeUser(currentUser)
             renderUsers(user)
-            // deleteUser.removeEventListener('submit', () => {} )
+
         })
     $("#modalDelete").modal('hide')
 })
