@@ -54,7 +54,7 @@
                     <!-- Первая вкладка (активная) -->
 
                     <li class="nav-item">
-                        <a class="nav-link active" data-toggle="tab" href="#userstable">Users table</a>
+                        <a class="nav-link active" data-toggle="tab" href="#userstable" id="table">Users table</a>
                     </li>
 
                     <!-- Вторая вкладка -->
@@ -71,8 +71,8 @@
 
                             <!--                        Страница админа-->
 
-                            <div class="tab-pane fade show active" id="userstable">
-                                <div class="container-fluid">
+                            <div class="tab-pane fade show active" id="userstable" >
+                                <div class="container-fluid" >
                                     <h3>All users</h3>
                                     <div>
 
@@ -130,13 +130,18 @@
 
                                             <label for="rolesC"><b>Role</b></label>
                                             <select multiple class="form-control form-control-sm" id="rolesC"
-                                                    size="2" required>
+                                                    size="2" >
+
+<!--                                                <option th:each="role : ${roles}"-->
+<!--                                                        th:value="${role.getId()}"-->
+<!--                                                        th:text="${role.getName()}">-->
+<!--                                                </option>-->
                                                 <option selected="selected" value="1">ADMIN</option>
                                                 <option value="2">USER</option>
                                             </select>
 
                                             <br>
-                                            <button th:type="submit"  class="btn btn-success" value="Add new user" >
+                                            <button class="btn btn-success" onclick="create()" >
                                                 Add new user
                                             </button>
                                         </form>
@@ -213,7 +218,7 @@
                                 class="btn btn-secondary"
                                 data-dismiss="modal">Close
                         </button>
-                        <button type="submit" class="btn btn-primary">Edit</button>
+                        <button  class="btn btn-primary" onclick="edit()">Edit</button>
                     </div>
                 </form>
             </div>
@@ -282,7 +287,7 @@
                                 class="btn btn-secondary"
                                 data-dismiss="modal">Close
                         </button>
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button class="btn btn-danger" onclick="remove()">Delete</button>
                     </div>
                 </form>
             </div>

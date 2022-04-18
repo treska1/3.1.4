@@ -47,7 +47,7 @@ fetch(url)
     )
 
 // POST Method CREATE
-
+function create(){
 const userCreate = document.querySelector('#userCreate');
 let name = document.getElementById("nameC")
 let surname = document.getElementById("surnameC")
@@ -55,6 +55,7 @@ let age = document.getElementById("ageC")
 let email = document.getElementById("emailC")
 let password = document.getElementById("passwordC")
 let roles = document.getElementById("rolesC")
+
 
 userCreate.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -69,12 +70,8 @@ userCreate.addEventListener('submit', (e) => {
             age: age.value,
             email: email.value,
             password: password.value,
-            roles: [{
-                "id": roles.value
-            },
-                {
-                    "id": roles.value
-                }
+            roles: [
+                {"id" : roles.value}
             ]
         })
     })
@@ -84,6 +81,23 @@ userCreate.addEventListener('submit', (e) => {
             renderUsers(users)
         })
 })
+
+// let roleSelect = () => {
+//     let arr = []
+//     let select = document.getElementById("rolesC").options
+//     for (let i = 0; i < select.length; i++){
+//         if (select[i].selected){
+//             let role = {id: select[i].value, name: select[i].text}
+//             arr.push(role)
+//         }
+//     }
+//     return arr
+// }
+    $('#table').tab('show')
+}
+
+
+
 
 const on = (element, event, selector, handler) => {
     element.addEventListener(event, e => {
@@ -106,7 +120,7 @@ on(document, 'click', '#edituser', e => {
     document.getElementById('rolesU').value = userInfo.children[5].innerHTML
     $('#modalEdit').modal('show')
 })
-
+function edit(){
 const editUser = document.querySelector('#modalEdit')
 editUser.addEventListener('submit', e => {
     e.preventDefault();
@@ -126,15 +140,12 @@ editUser.addEventListener('submit', e => {
                 "id": document.getElementById('rolesU').value
             }]
         })
-
     })
         .then(res => res.json())
         .then(data => updateUser(data))
     $("#modalEdit").modal('hide')
-    console.log('AFTER UPDATE: ' + document.getElementById('passwordU').value)
-
 })
-
+}
 let users = [];
 const updateUser = (user) => {
     const userById = users.findIndex(i => i.id === user.id);
@@ -164,18 +175,18 @@ const removeUser = (id) => {
     users = users.filter(user => user.id != id);
     renderUsers(users);
 }
-
+function remove(){
 const deleteUser = document.querySelector('#modalDelete')
 deleteUser.addEventListener('submit', e => {
     e.preventDefault();
     fetch(url + '/' + currentUser, {
         method: 'DELETE'
     })
-        .then(res => res.json())
+        // .then(res => res.json())
         .then(user => {
             removeUser(currentUser)
-            deleteUser.removeEventListener('submit', () => {} )
+            // deleteUser.removeEventListener('submit', () => {} )
         })
     $("#modalDelete").modal('hide')
 })
-
+}
