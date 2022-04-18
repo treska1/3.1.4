@@ -172,9 +172,9 @@ on(document, 'click', '#deleteuser', e => {
 })
 
 const removeUser = (id) => {
-    users = users.filter(user => user.id != id);
-    renderUsers(users);
-}
+    users = users.filter(user => user.id !== id)}
+
+
 function remove(){
 const deleteUser = document.querySelector('#modalDelete')
 deleteUser.addEventListener('submit', e => {
@@ -182,9 +182,10 @@ deleteUser.addEventListener('submit', e => {
     fetch(url + '/' + currentUser, {
         method: 'DELETE'
     })
-        // .then(res => res.json())
+        .then(res => res.json())
         .then(user => {
             removeUser(currentUser)
+            renderUsers(user)
             // deleteUser.removeEventListener('submit', () => {} )
         })
     $("#modalDelete").modal('hide')

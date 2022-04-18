@@ -29,12 +29,13 @@ public class UserServiceImpl implements UserService {
         this.passwordEncoder = passwordEncoder;
 
     }
-
+    @Transactional
     @Override
     public void saveUser(User user, Set<Role> roleSet) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
-
+    @Transactional
     @Override
     public void updateUser(User user) {
         if (!user.getPassword().equals(getUserById(user.getId()).getPassword())) {
@@ -42,12 +43,12 @@ public class UserServiceImpl implements UserService {
         }
         userRepository.save(user);
     }
-
+    @Transactional
     @Override
     public void removeUser(long id) {
         userRepository.deleteById(id);
     }
-
+    @Transactional
     @Override
     public User getUserById(long id) {
         User user = userRepository.findUserById(id);
@@ -55,7 +56,7 @@ public class UserServiceImpl implements UserService {
         user.setRoles(role);
         return user;
     }
-
+    @Transactional
     @Override
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -68,7 +69,7 @@ public class UserServiceImpl implements UserService {
         user.setRoles(role);
         return user;
     }
-
+    @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findUserByEmail(username);
