@@ -71,13 +71,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isExistByEmail(String email) {
-        System.out.println(userRepository.existsByEmail(email));
         return userRepository.existsByEmail(email);
 
     }
-//        if (userRepository.findUserByEmail(email) != null) {
-//           throw new IllegalArgumentException(String.format("User with email '%s' already exists", email));
-//        } else
-//            return false;
-//    }
 }
