@@ -32,27 +32,16 @@ public class AdminController {
 
     @GetMapping
     public String getAllUser(@AuthenticationPrincipal User user, Model model) {
-//        List<User> list = userService.getAllUsers();
-//        model.addAttribute("allUsers", list);
-//        model.addAttribute("userInfo", user);
-//        model.addAttribute("roles",user.getRoles());
-
         return "admin";
     }
     @GetMapping("/users")
     public String createUserForm(Model model, User user) {
-//        model.addAttribute("user",user);
+
         return "admin";
     }
 
     @PostMapping("/users")
     public String createUser(User user, @RequestParam("roleSelect")long[] roleId) {
-//        Set<Role> roleSet = new HashSet<>();
-//        for (long role: roleId) {
-//            roleSet.add(roleService.getRoleById(role));
-//        }
-//        user.setRoles(roleSet);
-//        userService.saveUser(user, user.getRoles());
         return "redirect:/admin";
     }
 
@@ -60,7 +49,6 @@ public class AdminController {
 
     @PostMapping("/delete/{id}")
     public String removeUser(@PathVariable("id") long id, Model model) {
-        userService.removeUser(id);
         return "redirect:/admin";
     }
 
@@ -72,12 +60,6 @@ public class AdminController {
 
     @PostMapping("/{id}")
     public String userUpdate(@ModelAttribute("user") User user,@RequestParam("roleSelect") long []rolesId) {
-        Set<Role> roleSet = new HashSet<>();
-        for (long role: rolesId) {
-            roleSet.add(roleService.getRoleById(role));
-        }
-        user.setRoles(roleSet);
-        userService.updateUser(user);
         return "redirect:/admin";
 
     }

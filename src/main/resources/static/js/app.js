@@ -37,8 +37,8 @@ const renderUsers = (users) => {
                     data-toggle="modal" data-target="modal" data-id="${user.id}">Delete</button> 
             </td> 
             </tr>`
-    })
-    userList.innerHTML = output
+    });
+    userList.innerHTML = output;
 }
 
 fetch(url)
@@ -48,6 +48,7 @@ fetch(url)
     });
 
 // POST Method CREATE
+
 function create() {
     const userCreate = document.querySelector('#userCreate');
     let name = document.getElementById("nameC");
@@ -88,7 +89,6 @@ function create() {
     $('#table').tab('show');
 };
 
-
 const on = (element, event, selector, handler) => {
     element.addEventListener(event, e => {
         if (e.target.closest(selector)) {
@@ -101,7 +101,7 @@ const on = (element, event, selector, handler) => {
 
 on(document, 'click', '#edituser', e => {
     const userInfo = e.target.parentNode.parentNode;
-
+    currentUser = userInfo.children[0].innerHTML
     document.getElementById('idU').value = userInfo.children[0].innerHTML;
     document.getElementById('nameU').value = userInfo.children[1].innerHTML;
     document.getElementById('surnameU').value = userInfo.children[2].innerHTML;
@@ -140,17 +140,17 @@ function edit() {
             roles: role()
         })
     })
-        .then(res => res.json())
-        .then(data => updateUser(data));
+        .then(res => res.json()).then(edit => {
+            updateUser(currentUser)
+            renderUsers(edit)
+        })
+
     $("#modalEdit").modal('hide');
 }
 
 let users = [];
 const updateUser = (user) => {
-    const userById = user.findIndex(i => i.id === user.id);
-    users = user.findIndex(i => i.id !== userById.id ? user : userById);
-    console.log(users)
-    renderUsers(users);
+    users = users.map(userEdit => user.id !== currentUser ? userEdit : user)
 }
 
 // DELETE Method DELETE
@@ -173,7 +173,6 @@ const removeUser = (id) => {
 }
 
 function remove() {
-console.log(currentUser)
         fetch(url + '/' + currentUser, {
             method: 'DELETE'
         })
