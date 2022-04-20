@@ -9,7 +9,6 @@ fetch('http://localhost:8080/api/user')
                     <span> ${(data.roles).map(rn => rn.name === "ROLE_ADMIN" ? "ADMIN" : "USER")}</span>`
     })
 
-
 // GET Method SHOW
 
 const url = 'http://localhost:8080/api/admin/users';
@@ -19,14 +18,13 @@ const renderUsers = (users) => {
     let output = '';
     users.forEach(user => {
         output +=
-            `
-            <tr>
+            ` <tr>
             <td>${user.id}</td>
             <td>${user.name}</td>
             <td>${user.surname}</td>
             <td>${user.age}</td>
             <td>${user.email}</td>
-            <td>${user.roles.map(r => r.name.includes("R", 0) ? (r.name === "ROLE_ADMIN" ? "ADMIN" : "USER") : (r.name === "USER" ? "USER" : "ADMIN"))}</td>
+            <td>${user.roles.map(r => r.name.replace("ROLE_", " "))}</td>
             <td hidden="true">${user.password}</td>
             <td> 
                 <button type="button" class="btn btn-info"  id="edituser"  data-action="edit"  
@@ -43,14 +41,11 @@ const renderUsers = (users) => {
 
 fetch(url)
     .then(res => res.json())
-    .then(data => {
-        renderUsers(data)
-    });
+    .then(data => renderUsers(data));
 
 // POST Method CREATE
 
 function create() {
-    const userCreate = document.querySelector('#userCreate');
     let name = document.getElementById("nameC");
     let surname = document.getElementById("surnameC");
     let age = document.getElementById("ageC");
@@ -81,11 +76,7 @@ function create() {
         })
     })
         .then(res => res.json())
-        .then(data => {
-            users = data;
-            renderUsers(users)
-        })
-
+        .then(data => renderUsers(data))
     $('#table').tab('show');
 };
 
@@ -101,7 +92,6 @@ const on = (element, event, selector, handler) => {
 
 on(document, 'click', '#edituser', e => {
     const userInfo = e.target.parentNode.parentNode;
-    currentUser = userInfo.children[0].innerHTML
     document.getElementById('idU').value = userInfo.children[0].innerHTML;
     document.getElementById('nameU').value = userInfo.children[1].innerHTML;
     document.getElementById('surnameU').value = userInfo.children[2].innerHTML;
@@ -124,7 +114,7 @@ function edit() {
         }
         return arr;
     }
-    const editUser = document.querySelector('#modalEdit')
+
     fetch(url, {
         method: 'PUT',
         headers: {
@@ -140,17 +130,9 @@ function edit() {
             roles: role()
         })
     })
-        .then(res => res.json()).then(edit => {
-            updateUser(currentUser)
-            renderUsers(edit)
-        })
-
+        .then(res => res.json())
+        .then(edit => renderUsers(edit))
     $("#modalEdit").modal('hide');
-}
-
-let users = [];
-const updateUser = (user) => {
-    users = users.map(userEdit => user.id !== currentUser ? userEdit : user)
 }
 
 // DELETE Method DELETE
@@ -168,18 +150,11 @@ on(document, 'click', '#deleteuser', e => {
     $('#modalDelete').modal('show')
 })
 
-const removeUser = (id) => {
-    users = users.filter(user => user.id !== id)
-}
-
 function remove() {
         fetch(url + '/' + currentUser, {
             method: 'DELETE'
         })
             .then(res => res.json())
-            .then(user => {
-                removeUser(currentUser)
-                renderUsers(user)
-            })
+            .then(user => renderUsers(user))
         $("#modalDelete").modal('hide')
 }
