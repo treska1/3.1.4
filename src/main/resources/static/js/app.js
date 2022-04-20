@@ -15,12 +15,10 @@ fetch('http://localhost:8080/api/user')
 const url = 'http://localhost:8080/api/admin/users';
 const userList = document.querySelector('#userTable');
 
-const renderUsers = (user) => {
-    // let output = '';
-    //
-    // users.forEach(user => {
-    //     output +=
-    userList.append(
+const renderUsers = (users) => {
+    let output = '';
+    users.forEach(user => {
+        output +=
             `
             <tr>
             <td>${user.id}</td>
@@ -38,19 +36,19 @@ const renderUsers = (user) => {
                 <button type="button" class="btn btn-danger" id="deleteuser" data-action="delete" 
                     data-toggle="modal" data-target="modal" data-id="${user.id}">Delete</button> 
             </td> 
-            </tr>`);
-    }
-    // userList.innerHTML = output
+            </tr>`
+
+    })
+    userList.innerHTML = output
+
+}
 
 
 fetch(url)
     .then(res => res.json())
-    .then(users => {
-        users.forEach(user => {
-            renderUsers(user)
-        users.push(user)
-        })
-        });
+    .then(data => {
+        renderUsers(data)
+    });
 
 // POST Method CREATE
 function create() {
@@ -72,23 +70,23 @@ function create() {
         return arr;
     }
 
-        fetch(url, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                name: name.value,
-                surname: surname.value,
-                age: age.value,
-                email: email.value,
-                password: password.value,
-                roles: role()
-            })
+    fetch(url, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            name: name.value,
+            surname: surname.value,
+            age: age.value,
+            email: email.value,
+            password: password.value,
+            roles: role()
         })
-            .then(res => res.json())
-            .then(data => {
-                users = data;
-                renderUsers(users)
-            })
+    })
+        .then(res => res.json())
+        .then(data => {
+            users = data;
+            renderUsers(users)
+        })
 
     $('#table').tab('show');
 };
@@ -130,24 +128,24 @@ function edit() {
         return arr;
     }
     const editUser = document.querySelector('#modalEdit')
-        fetch(url, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                id: document.getElementById('idU').value,
-                name: document.getElementById('nameU').value,
-                surname: document.getElementById('surnameU').value,
-                age: document.getElementById('ageU').value,
-                email: document.getElementById('emailU').value,
-                password: document.getElementById('passwordU').value,
-                roles: role()
-            })
+    fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            id: document.getElementById('idU').value,
+            name: document.getElementById('nameU').value,
+            surname: document.getElementById('surnameU').value,
+            age: document.getElementById('ageU').value,
+            email: document.getElementById('emailU').value,
+            password: document.getElementById('passwordU').value,
+            roles: role()
         })
-            .then(res => res.json())
-            .then(data => updateUser(data));
-        $("#modalEdit").modal('hide');
+    })
+        .then(res => res.json())
+        .then(data => updateUser(data));
+    $("#modalEdit").modal('hide');
 }
 
 let users = [];
