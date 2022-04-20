@@ -12,12 +12,16 @@ fetch('http://localhost:8080/api/user')
 
 // GET Method SHOW
 
-const url = 'http://localhost:8080/api/admin/users'
+const url = 'http://localhost:8080/api/admin/users';
 const userList = document.querySelector('#userTable');
-const renderUsers = (users) => {
-    let output = '';
-    users.forEach(user => {
-        output += `
+
+const renderUsers = (user) => {
+    // let output = '';
+    //
+    // users.forEach(user => {
+    //     output +=
+    userList.append(
+            `
             <tr>
             <td>${user.id}</td>
             <td>${user.name}</td>
@@ -34,44 +38,43 @@ const renderUsers = (users) => {
                 <button type="button" class="btn btn-danger" id="deleteuser" data-action="delete" 
                     data-toggle="modal" data-target="modal" data-id="${user.id}">Delete</button> 
             </td> 
-            </tr>`;
-    });
-    userList.innerHTML = output
-}
+            </tr>`);
+    }
+    // userList.innerHTML = output
+
 
 fetch(url)
     .then(res => res.json())
-    .then(data =>
-        renderUsers(data)
-    )
+    .then(users => {
+        users.forEach(user => {
+            renderUsers(user)
+        users.push(user)
+        })
+        });
 
 // POST Method CREATE
 function create() {
     const userCreate = document.querySelector('#userCreate');
-    let name = document.getElementById("nameC")
-    let surname = document.getElementById("surnameC")
-    let age = document.getElementById("ageC")
-    let email = document.getElementById("emailC")
-    let password = document.getElementById("passwordC")
+    let name = document.getElementById("nameC");
+    let surname = document.getElementById("surnameC");
+    let age = document.getElementById("ageC");
+    let email = document.getElementById("emailC");
+    let password = document.getElementById("passwordC");
     let role = () => {
-        let arr = []
-        let select = document.getElementById("rolesC").options
+        let arr = [];
+        let select = document.getElementById("rolesC").options;
         for (let i = 0; i < select.length; i++) {
             if (select[i].selected) {
-                let role = {id: select[i].value, name: select[i].text}
-                arr.push(role)
+                let role = {id: select[i].value, name: select[i].text};
+                arr.push(role);
             }
         }
-        return arr
+        return arr;
     }
 
-    userCreate.addEventListener('submit', (e) => {
-        e.preventDefault();
         fetch(url, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 name: name.value,
                 surname: surname.value,
@@ -86,10 +89,9 @@ function create() {
                 users = data;
                 renderUsers(users)
             })
-    })
 
-    $('#table').tab('show')
-}
+    $('#table').tab('show');
+};
 
 
 const on = (element, event, selector, handler) => {
@@ -103,33 +105,31 @@ const on = (element, event, selector, handler) => {
 // PUT Method UPDATE
 
 on(document, 'click', '#edituser', e => {
-    const userInfo = e.target.parentNode.parentNode
+    const userInfo = e.target.parentNode.parentNode;
 
-    document.getElementById('idU').value = userInfo.children[0].innerHTML
-    document.getElementById('nameU').value = userInfo.children[1].innerHTML
-    document.getElementById('surnameU').value = userInfo.children[2].innerHTML
-    document.getElementById('ageU').value = userInfo.children[3].innerHTML
-    document.getElementById('emailU').value = userInfo.children[4].innerHTML
-    document.getElementById('passwordU').value = userInfo.children[6].innerHTML
+    document.getElementById('idU').value = userInfo.children[0].innerHTML;
+    document.getElementById('nameU').value = userInfo.children[1].innerHTML;
+    document.getElementById('surnameU').value = userInfo.children[2].innerHTML;
+    document.getElementById('ageU').value = userInfo.children[3].innerHTML;
+    document.getElementById('emailU').value = userInfo.children[4].innerHTML;
+    document.getElementById('passwordU').value = userInfo.children[6].innerHTML;
 
-    $('#modalEdit').modal('show')
+    $('#modalEdit').modal('show');
 })
 
 function edit() {
     let role = () => {
-        let arr = []
-        let select = document.getElementById("rolesU").options
+        let arr = [];
+        let select = document.getElementById("rolesU").options;
         for (let i = 0; i < select.length; i++) {
             if (select[i].selected) {
-                let role = {id: select[i].value, name: select[i].text}
-                arr.push(role)
+                let role = {id: select[i].value, name: select[i].text};
+                arr.push(role);
             }
         }
-        return arr
+        return arr;
     }
     const editUser = document.querySelector('#modalEdit')
-    editUser.addEventListener('submit', e => {
-        e.preventDefault();
         fetch(url, {
             method: 'PUT',
             headers: {
@@ -146,14 +146,16 @@ function edit() {
             })
         })
             .then(res => res.json())
-            .then(data => updateUser(data))
-        $("#modalEdit").modal('hide')
-    })
+            .then(data => updateUser(data));
+        $("#modalEdit").modal('hide');
 }
 
 let users = [];
 const updateUser = (user) => {
-    const userById = users.findIndex(i => i.id === user.id);
+    const userById = $('#idU').value;
+    users.empty()
+    users = user.findIndex(i => i.id !== userById.id ? user : userById);
+    console.log(users)
     users[userById] = user;
     renderUsers(user);
 }
