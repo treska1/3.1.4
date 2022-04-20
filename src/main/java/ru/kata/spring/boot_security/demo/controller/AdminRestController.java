@@ -54,13 +54,7 @@ public class AdminRestController {
 
     @DeleteMapping("users/{id}")
     public ResponseEntity<List<User>> deleteUser(@PathVariable("id") long id) {
-          if(userService.getUserById(id)!=null){
               userService.removeUser(id);
-
-          } else {
-              throw new RuntimeException("User not found");
-          }
-
         return ResponseEntity.ok(userService.getAllUsers());
     }
 }

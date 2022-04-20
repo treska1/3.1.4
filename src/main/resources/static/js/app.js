@@ -37,12 +37,9 @@ const renderUsers = (users) => {
                     data-toggle="modal" data-target="modal" data-id="${user.id}">Delete</button> 
             </td> 
             </tr>`
-
     })
     userList.innerHTML = output
-
 }
-
 
 fetch(url)
     .then(res => res.json())
@@ -150,12 +147,10 @@ function edit() {
 
 let users = [];
 const updateUser = (user) => {
-    const userById = $('#idU').value;
-    users.empty()
+    const userById = user.findIndex(i => i.id === user.id);
     users = user.findIndex(i => i.id !== userById.id ? user : userById);
     console.log(users)
-    users[userById] = user;
-    renderUsers(user);
+    renderUsers(users);
 }
 
 // DELETE Method DELETE
@@ -170,8 +165,6 @@ on(document, 'click', '#deleteuser', e => {
     document.getElementById('ageD').value = userInfoDelete.children[3].innerHTML
     document.getElementById('emailD').value = userInfoDelete.children[4].innerHTML
     document.getElementById('rolesD').value = userInfoDelete.children[5].innerHTML
-
-
     $('#modalDelete').modal('show')
 })
 
@@ -180,9 +173,7 @@ const removeUser = (id) => {
 }
 
 function remove() {
-    const deleteUser = document.querySelector('#modalDelete')
-    deleteUser.addEventListener('submit', e => {
-        e.preventDefault();
+console.log(currentUser)
         fetch(url + '/' + currentUser, {
             method: 'DELETE'
         })
@@ -190,8 +181,6 @@ function remove() {
             .then(user => {
                 removeUser(currentUser)
                 renderUsers(user)
-
             })
         $("#modalDelete").modal('hide')
-    })
 }
