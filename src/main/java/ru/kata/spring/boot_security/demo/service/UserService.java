@@ -11,7 +11,7 @@ public interface UserService extends UserDetailsService {
 
     List getAllUsers();
 
-    void saveUser(User user, Set<Role> roleSet);
+    void saveUser(User user);
 
     User getUserById(long id);
 

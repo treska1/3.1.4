@@ -3,6 +3,8 @@ package ru.kata.spring.boot_security.demo.model;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.jackson.Jacksonized;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -14,7 +16,8 @@ import java.util.Collection;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
 @Jacksonized
 @Builder
 @Table(name = "users")
@@ -33,6 +36,11 @@ public class User implements UserDetails {
     private String email;
     @Column(name = "password")
     private String password;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "auth_provider")
+    private AuthProvider authProvider;
+
+
     @ManyToMany(fetch = FetchType.LAZY)
     @Fetch(FetchMode.JOIN)
     @JoinTable(name = "users_roles"
@@ -43,15 +51,17 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(long id, String name, String surname, byte age, String email, String password, Set<Role> roles) {
+    public User(long id, String name, String surname, byte age, String email, String password, AuthProvider authProvider, Set<Role> roles) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.age = age;
         this.email = email;
         this.password = password;
+        this.authProvider = authProvider;
         this.roles = roles;
     }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

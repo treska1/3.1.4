@@ -1,4 +1,4 @@
-package ru.kata.spring.boot_security.demo.configs;
+package ru.kata.spring.boot_security.demo.securityConfig;
 
 
 import org.springframework.context.annotation.Bean;

@@ -42,7 +42,7 @@ public class AdminRestController {
         if (userService.isExistByEmail(user.getEmail())){
             throw new IllegalArgumentException(String.format("User with email: '%s' already exists", user.getEmail()));
         }
-        userService.saveUser(user, user.getRoles());
+        userService.saveUser(user);
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
